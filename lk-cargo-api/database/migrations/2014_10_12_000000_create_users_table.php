@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('user_name')->unique();
+            $table->string('staff_name');
+            $table->enum('user_role', config('enums.user_role'));
+            $table->enum('branch', config('enums.branch'));
+            $table->string('password')->default(bcrypt('12345'));;
             $table->rememberToken();
             $table->timestamps();
         });

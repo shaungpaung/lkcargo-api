@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ItemtypeController;
+use App\Http\Controllers\ExchangerateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,7 @@ Route::post('/login', [UserController::class, 'login'])->name('route');
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class);
     Route::apiResource('itemtypes', ItemtypeController::class);
+    Route::apiResource('exchangerates', ExchangerateController::class);
     Route::post('/resetPassword', [UserController::class, 'resetPassword']);
     Route::post('/changePassword', [UserController::class, 'changePassword']);
     Route::post('/logout', [UserController::class, 'logout']);

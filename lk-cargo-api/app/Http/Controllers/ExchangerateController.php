@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Itemtype;
+use App\Models\Exchangerate;
 
-class ItemtypeController extends Controller
+class ExchangerateController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,8 +13,8 @@ class ItemtypeController extends Controller
     public function index()
     {
         //
-        $type = Itemtype::all();
-        return response()->json($type);
+        $exchangerate =  Exchangerate::all();
+        return response()->json($exchangerate);
     }
 
     /**
@@ -32,10 +32,11 @@ class ItemtypeController extends Controller
     {
         //
         $validate = $request->validate([
-            'type' => 'required',
+            'rate' => 'required',
+            'created_on' => 'required',
         ]);
-        $type = Itemtype::create($validate);
-        return response()->json($type);
+        $exchangerate = Exchangerate::create($validate);
+        return response()->json($exchangerate);
     }
 
     /**
@@ -44,8 +45,8 @@ class ItemtypeController extends Controller
     public function show(string $id)
     {
         //
-        $type = Itemtype::find($id);
-        return response()->json($type);
+        $exchangerate =  Exchangerate::find($id);
+        return response()->json($exchangerate);
     }
 
     /**
@@ -62,12 +63,13 @@ class ItemtypeController extends Controller
     public function update(Request $request, string $id)
     {
         //
-        $type = Itemtype::find($id);
+        $exchangerate = Exchangerate::find($id);
         $validate = $request->validate([
-            'type' => 'required',
+            'rate' => 'required',
+            'created_on' => 'required',
         ]);
-        $type->update($validate);
-        return response()->json(['message' => "Update Success!", 'type' => $type]);
+        $exchangerate->update($validate);
+        return response()->json(['message' => "Update Success!", 'type' => $exchangerate]);
     }
 
     /**
@@ -76,7 +78,7 @@ class ItemtypeController extends Controller
     public function destroy(string $id)
     {
         //
-        $type = Itemtype::destroy($id);
+        $exchangerate = Exchangerate::destroy($id);
         return response()->json(["Delete Success!"]);
     }
 }

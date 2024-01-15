@@ -17,7 +17,9 @@ return new class extends Migration
             $table->string('staff_name');
             $table->enum('user_role', config('enums.user_role'));
             $table->enum('branch', config('enums.branch'));
-            $table->string('password')->default(bcrypt('12345'));;
+            $table->string('password')->default(bcrypt('12345'));
+            $table->string('create_on')->default(now()->format('d-m-Y'));
+            $table->boolean('is_admin')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             'user_role' => 'admin',
             'branch' => 'Myanmar',
             'password' => Hash::make('shaung'),
+            'is_admin' => true,
         ]);
     }
 }

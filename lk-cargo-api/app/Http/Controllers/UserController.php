@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
+
 
 class UserController extends Controller
 {
@@ -33,6 +35,9 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+        if (!Auth::user()->is_admin) {
+            return response()->json(['message' => 'Unauthorized. Only admin can create user'], 403);
+        }
         $validate = $request->validate([
             'user_name' => 'required',
             'staff_name' => 'required',
@@ -71,6 +76,9 @@ class UserController extends Controller
         if (!$user) {
             return response()->json(['message' => 'User ' . $id . ' Not found'], 404);
         }
+        if (!Auth::user()->is_admin) {
+            return response()->json(['message' => 'Unauthorized. Only admin can update user'], 403);
+        }
         $validate = $request->validate([
             'staff_name' => 'required',
             'user_role' => ['required', Rule::in(config('enums.user_role'))],
@@ -86,6 +94,9 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
+        if (!Auth::user()->is_admin) {
+            return response()->json(['message' => 'Unauthorized. Only admin can delete user'], 403);
+        }
         $user = User::destroy($id);
         $result = "Delete Success!";
         return response()->json($result);
@@ -105,12 +116,52 @@ class UserController extends Controller
         }
         $token = $user->createToken($login['user_name'])->plainTextToken;
         return response()->json([
-            'user_name'  => $user,
+            'login_user'  => $user,
             'token' => $token,
         ]);
     }
 
     public function resetPassword(Request $request)
     {
+        $validated = $request->validate([
+            'user_id' => 'required|exists:App\Models\User,id'
+        ]);
+        $user = User::find($validated['user_id']);
+        $user->update([
+            'password' => Hash::make('12345')
+        ]);
+        $user->tokens()->delete();
+        return response()->json([
+            'message' => 'Successfully reset password.'
+        ]);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $validated = $request->validate([
+            'user_id' => 'required|exists:App\Models\User,id',
+            'old_password' => 'required',
+            'new_password' => 'required',
+            'confirmed_password' => 'required'
+        ]);
+        $user = User::find($validated['user_id']);
+        if (!Hash::check($validated['old_password'], $user->password)) {
+            return response()->json(['message' => "Old password is invalid."], 422);
+        }
+        $user->update([
+            'password' => Hash::make($validated["new_password"])
+        ]);
+        $user->tokens()->delete();
+        return response()->json([
+            'message' => 'Successfully changed to new password.'
+        ]);
+    }
+    public function logout(Request $request)
+    {
+        if (Auth::check()) {
+            $request->user()->currentAccessToken()->delete();
+            return response()->json(['message' => "Successfully logged out"]);
+        }
+        return response()->json(['message' => 'Unauthorized.'], 401);
     }
 }

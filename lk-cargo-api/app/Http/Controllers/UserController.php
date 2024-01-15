@@ -142,7 +142,7 @@ class UserController extends Controller
             'user_id' => 'required|exists:App\Models\User,id',
             'old_password' => 'required',
             'new_password' => 'required',
-            'confirmed_password' => 'required'
+            'confirmed_password' => 'required | same: new_password'
         ]);
         $user = User::find($validated['user_id']);
         if (!Hash::check($validated['old_password'], $user->password)) {

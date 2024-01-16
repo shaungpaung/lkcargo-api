@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Itemtype;
 
-class ItemtypeController extends Controller
+class OtherchargesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,8 +12,6 @@ class ItemtypeController extends Controller
     public function index()
     {
         //
-        $type = Itemtype::all();
-        return response()->json($type);
     }
 
     /**
@@ -31,11 +28,6 @@ class ItemtypeController extends Controller
     public function store(Request $request)
     {
         //
-        $validate = $request->validate([
-            'type' => 'required',
-        ]);
-        $type = Itemtype::create($validate);
-        return response()->json($type);
     }
 
     /**
@@ -44,8 +36,6 @@ class ItemtypeController extends Controller
     public function show(string $id)
     {
         //
-        $type = Itemtype::find($id);
-        return response()->json($type);
     }
 
     /**
@@ -62,12 +52,6 @@ class ItemtypeController extends Controller
     public function update(Request $request, string $id)
     {
         //
-        $type = Itemtype::find($id);
-        $validate = $request->validate([
-            'type' => 'required',
-        ]);
-        $type->update($validate);
-        return response()->json(['message' => "Update Success!", 'type' => $type]);
     }
 
     /**
@@ -76,8 +60,5 @@ class ItemtypeController extends Controller
     public function destroy(string $id)
     {
         //
-        $type = Itemtype::find($id);
-        $type->delete();
-        return response()->json(["Delete Success!"]);
     }
 }

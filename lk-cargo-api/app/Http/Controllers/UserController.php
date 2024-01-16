@@ -97,7 +97,8 @@ class UserController extends Controller
         if (!Auth::user()->is_admin) {
             return response()->json(['message' => 'Unauthorized. Only admin can delete user'], 403);
         }
-        $user = User::destroy($id);
+        $user = User::find($id);
+        $user->delete();
         $result = "Delete Success!";
         return response()->json($result);
     }

@@ -78,7 +78,11 @@ class ExchangerateController extends Controller
     public function destroy(string $id)
     {
         //
-        $exchangerate = Exchangerate::destroy($id);
+        $exchangerate = Exchangerate::find($id);
+        if (!$exchangerate) {
+            return response()->json(['message' => 'Transportation Charges id : ' . $id . ' not found'], 404);
+        }
+        $exchangerate->delete();
         return response()->json(["Delete Success!"]);
     }
 }

@@ -5,15 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Itemtype extends Model
+class Pricings extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'itemtype'
+        'qty',
+        'rate',
+        'created_on',
+        'type_id',
     ];
-    public function pricings()
+    public function itemtype()
     {
-        return $this->hasMany(Pricings::class, 'type_id');
+        return $this->belongsTo(ItemType::class, 'type_id');
     }
 }

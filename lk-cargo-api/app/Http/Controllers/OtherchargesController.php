@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Othercharges;
 
 class OtherchargesController extends Controller
 {
@@ -12,6 +13,8 @@ class OtherchargesController extends Controller
     public function index()
     {
         //
+        $othercharges = OtherCharges::all();
+        return response()->json($othercharges);
     }
 
     /**
@@ -28,6 +31,13 @@ class OtherchargesController extends Controller
     public function store(Request $request)
     {
         //
+        $validate = $request->validate([
+            'charge_type' => 'required',
+            'qty' => 'required',
+            'rate' => 'required',
+        ]);
+        $othercharges = Othercharges::create($validate);
+        return response()->json($othercharges);
     }
 
     /**
@@ -36,6 +46,8 @@ class OtherchargesController extends Controller
     public function show(string $id)
     {
         //
+        $othercharges = Othercharges::find($id);
+        return response()->json($othercharges);
     }
 
     /**
@@ -52,6 +64,14 @@ class OtherchargesController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $othercharges = Othercharges::find($id);
+        $validate = $request->validate([
+            'charge_type' => 'required',
+            'qty' => 'required',
+            'rate' => 'required',
+        ]);
+        $othercharges->update($validate);
+        return response()->json(['message' => 'Successfully updated', 'data' => $othercharges]);
     }
 
     /**
@@ -60,5 +80,11 @@ class OtherchargesController extends Controller
     public function destroy(string $id)
     {
         //
+        $othercharges = OtherCharges::find($id);
+        if (!$othercharges) {
+            return response()->json(['message' => 'Charges Type id : ' . $id . ' not found'], 404);
+        }
+        $othercharges->delete();
+        return response()->json(['message' => 'Charges Type delete success']);
     }
 }

@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Othercharges extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'charge_type',
+        'qty',
+        'rate'
+    ];
 }

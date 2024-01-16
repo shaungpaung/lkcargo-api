@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('othercharges', function (Blueprint $table) {
             $table->id();
+            $table->string('charge_type');
+            $table->string('qty');
+            $table->string('rate');
             $table->timestamps();
         });
     }

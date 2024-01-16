@@ -6,6 +6,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ItemtypeController;
 use App\Http\Controllers\ExchangerateController;
 use App\Http\Controllers\TransportChargesController;
+use App\Http\Controllers\OtherChargesController;
+use App\Http\Controllers\PricingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +28,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class);
     Route::apiResource('itemtypes', ItemtypeController::class);
     Route::apiResource('exchangerates', ExchangerateController::class);
+    Route::apiResource('othercharges', OtherchargesController::class);
     Route::apiResource('transportcharges', TransportChargesController::class);
+    Route::apiResource('pricings', PricingController::class);
     Route::post('/resetPassword', [UserController::class, 'resetPassword']);
     Route::post('/changePassword', [UserController::class, 'changePassword']);
     Route::post('/logout', [UserController::class, 'logout']);

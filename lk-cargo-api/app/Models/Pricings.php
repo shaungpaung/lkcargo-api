@@ -14,6 +14,10 @@ class Pricings extends Model
         'created_on',
         'type_id',
     ];
+
+    protected $hidden = [
+        'type_id'
+    ];
     public function itemtype()
     {
         return $this->belongsTo(ItemType::class, 'type_id');

@@ -14,7 +14,7 @@ class PricingController extends Controller
     public function index(Request $request)
     {
         //
-        $queryBuilder = Pricings::orderBy('qty');
+        $queryBuilder = Pricings::orderBy('id');
         if ($request->has('type_id')) {
             $queryBuilder->where('type_id', $request->type_id);
         }
